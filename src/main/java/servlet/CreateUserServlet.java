@@ -27,7 +27,7 @@ public class CreateUserServlet extends BaseServlet {
 
         if (resourcePath.startsWith("/user/create")) {
             User user = createUser(request.getBody());
-            String nextPath = "/index.html";
+            String nextPath = "/";
 
             try {
                 DataBase.addUser(user);

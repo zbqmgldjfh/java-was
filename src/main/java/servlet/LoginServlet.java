@@ -33,7 +33,7 @@ public class LoginServlet extends BaseServlet {
 
         if (isValidUser(password, findUser)) {
             createCookie(response, findUser);
-            response.redirection("/index.html");
+            response.redirection("/");
             return;
         }
 
