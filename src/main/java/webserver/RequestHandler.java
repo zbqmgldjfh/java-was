@@ -23,6 +23,7 @@ public class RequestHandler extends Thread {
         servletMap.put("/user/login", new LoginServlet());
         servletMap.put("/user/logout", new LogoutServlet());
         servletMap.put("/user/list", new UserListServlet());
+        servletMap.put("/questions", new ArticleServlet());
         loginFilter.addUrl("/user/list");
     }
 
