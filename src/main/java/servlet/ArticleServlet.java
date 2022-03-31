@@ -18,7 +18,7 @@ public class ArticleServlet extends BaseServlet {
         Article article = getArticle(request);
         Long articleId = ArticleDataBase.save(article);
         log.debug("[articleID] : {}", articleId);
-        response.redirection("/index.html");
+        response.redirection("/");
     }
 
     @Override

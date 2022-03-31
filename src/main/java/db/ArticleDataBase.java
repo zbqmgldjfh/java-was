@@ -1,7 +1,9 @@
 package db;
 
 import model.Article;
+import model.User;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,5 +16,9 @@ public class ArticleDataBase {
         article.setId(sequence);
         articleStore.put(sequence, article);
         return sequence;
+    }
+
+    public static Collection<Article> findAll() {
+        return articleStore.values();
     }
 }
