@@ -1,3 +1,12 @@
+## Step06 TODO list
+
+- [ ] 글 작성
+  - [ ] 글 쓰기 Form 불러오기
+  - [ ] 작성된 글 저장하기
+  - [ ] 로그인 필터처리
+- [ ] 게시물 list 출력
+- [ ] CSS 적용하기
+
 ## Step04 리뷰 반영
 
 - [x] DataBase.findUserById "ddd" 수정하기
