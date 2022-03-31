@@ -14,9 +14,15 @@ import java.util.Set;
 
 public class HttpResponse {
     private static final Logger log = LoggerFactory.getLogger(HttpResponse.class);
-
+    private static final Map<String, String> EXTENSIONS = new HashMap<>();
     Map<String, String> headers;
     private DataOutputStream dos;
+
+    static {
+        EXTENSIONS.put(".css", "text/css");
+        EXTENSIONS.put(".js", "application/javascript");
+        EXTENSIONS.put(".html", "text/html");
+    }
 
     public HttpResponse(OutputStream out) {
         this.headers = new HashMap<>();
@@ -26,7 +32,8 @@ public class HttpResponse {
     public void forward(String url) {
         try {
             byte[] body = Files.readAllBytes(new File("./webapp" + url).toPath());
-            response200Header(body.length);
+            String extension = url.substring(url.lastIndexOf("."));
+            response200Header(body.length, EXTENSIONS.get(extension));
             responseBody(body);
             dos.flush();
         } catch (IOException e) {
@@ -36,7 +43,7 @@ public class HttpResponse {
 
     public void forward(byte[] body) {
         try {
-            response200Header(body.length);
+            response200Header(body.length, "text/html");
             responseBody(body);
             dos.flush();
         } catch (IOException e) {
@@ -63,10 +70,10 @@ public class HttpResponse {
         }
     }
 
-    private void response200Header(int lengthOfBodyContent) {
+    private void response200Header(int lengthOfBodyContent, String contentType) {
         try {
             dos.writeBytes("HTTP/1.1 200 OK \r\n");
-            dos.writeBytes("Content-Type: text/html;charset=utf-8\r\n");
+            dos.writeBytes("Content-Type:" + contentType + ";charset=utf-8\r\n");
             dos.writeBytes("Content-Length: " + lengthOfBodyContent + "\r\n");
             dos.writeBytes("\r\n");
         } catch (IOException e) {

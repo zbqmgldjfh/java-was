@@ -18,7 +18,7 @@ public class LogoutServlet extends BaseServlet {
         String sessionId = getSessionId(request);
         response.addHeader("Set-Cookie", Session.SESSION_ID + "=deleted; path=/; Max-Age=0; Expires=Wednesday, 09-Nov-99 21:00:00 GMT");
         Session.remove(sessionId);
-        response.redirection("/index.html");
+        response.redirection("/");
     }
 
     private String getSessionId(HttpRequest request) {
