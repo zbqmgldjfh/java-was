@@ -26,6 +26,7 @@ public class RequestHandler extends Thread {
         servletMap.put("/questions", new ArticleServlet());
         servletMap.put("/", new HomeServlet());
         loginFilter.addUrl("/user/list");
+        loginFilter.addUrl("/questions");
     }
 
     private Socket connection;
