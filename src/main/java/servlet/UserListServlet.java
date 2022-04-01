@@ -4,6 +4,7 @@ import db.DataBase;
 import http.HttpRequest;
 import http.HttpResponse;
 import model.User;
+import servlet.annotation.MyServletMapping;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Collection;
 
+@MyServletMapping(url = "/user/list")
 public class UserListServlet extends BaseServlet {
     @Override
     public void doGet(HttpRequest request, HttpResponse response) {

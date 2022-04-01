@@ -6,6 +6,7 @@ import http.HttpRequest;
 import http.HttpResponse;
 import model.Article;
 import model.User;
+import servlet.annotation.MyServletMapping;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Collection;
 
+@MyServletMapping(url = "/")
 public class HomeServlet extends BaseServlet {
 
     @Override

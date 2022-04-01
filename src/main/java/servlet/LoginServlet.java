@@ -7,6 +7,7 @@ import http.HttpResponse;
 import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import servlet.annotation.MyServletMapping;
 import util.HttpRequestUtils;
 import webserver.RequestHandler;
 
@@ -14,6 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+@MyServletMapping(url = "/user/login")
 public class LoginServlet extends BaseServlet {
     private static final Logger log = LoggerFactory.getLogger(LoginServlet.class);
 
