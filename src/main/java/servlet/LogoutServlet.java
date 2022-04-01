@@ -5,10 +5,12 @@ import http.HttpRequest;
 import http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import servlet.annotation.MyServletMapping;
 import webserver.RequestHandler;
 
 import java.util.Map;
 
+@MyServletMapping(url = "/user/logout")
 public class LogoutServlet extends BaseServlet {
     private static final Logger log = LoggerFactory.getLogger(LogoutServlet.class);
     private static final int SESSION_ID_IDX = 1;

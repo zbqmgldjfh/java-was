@@ -1,10 +1,16 @@
 package webserver;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Set;
 
+import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import servlet.Servlet;
+import servlet.annotation.MyServletMapping;
+import servlet.map.ServletMap;
 
 public class WebServer {
     private static final Logger log = LoggerFactory.getLogger(WebServer.class);
@@ -18,8 +24,10 @@ public class WebServer {
             port = Integer.parseInt(args[0]);
         }
 
-        // 서버소켓을 생성한다. 웹서버는 기본적으로 8080번 포트를 사용한다.
+        Reflections reflector = new Reflections("servlet");
+        addServletToMap(reflector);
 
+        // 서버소켓을 생성한다. 웹서버는 기본적으로 8080번 포트를 사용한다.
         try (ServerSocket listenSocket = new ServerSocket(port)) {
             log.info("Web Application Server started {} port.", port);
 
@@ -29,6 +37,15 @@ public class WebServer {
                 RequestHandler requestHandler = new RequestHandler(connection);
                 requestHandler.start();
             }
+        }
+    }
+
+    private static void addServletToMap(Reflections reflector) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        Set<Class<?>> list = reflector.getTypesAnnotatedWith(MyServletMapping.class);
+        for (Class<?> clazz : list) {
+            String url = clazz.getAnnotation(MyServletMapping.class).url();
+            Servlet servlet = (Servlet) clazz.getDeclaredConstructor().newInstance();
+            ServletMap.addServlet(url, servlet);
         }
     }
 }

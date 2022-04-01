@@ -6,11 +6,12 @@ import http.HttpResponse;
 import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import servlet.annotation.MyServletMapping;
 import util.HttpRequestUtils;
 
 import java.util.Map;
 
-
+@MyServletMapping(url = "/user/create")
 public class CreateUserServlet extends BaseServlet {
     private static final Logger log = LoggerFactory.getLogger(CreateUserServlet.class);
 

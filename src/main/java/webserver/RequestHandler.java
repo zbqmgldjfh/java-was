@@ -6,25 +6,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import servlet.*;
 import servlet.filter.LoginFilter;
+import servlet.map.ServletMap;
 import util.RequestParser;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class RequestHandler extends Thread {
     private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
-    private static Map<String, Servlet> servletMap = new ConcurrentHashMap<>();
     private static LoginFilter loginFilter = new LoginFilter();
 
     static {
-        servletMap.put("/user/create", new CreateUserServlet());
-        servletMap.put("/user/login", new LoginServlet());
-        servletMap.put("/user/logout", new LogoutServlet());
-        servletMap.put("/user/list", new UserListServlet());
-        servletMap.put("/questions", new ArticleServlet());
-        servletMap.put("/", new HomeServlet());
         loginFilter.addUrl("/user/list");
         loginFilter.addUrl("/questions");
     }
@@ -54,8 +46,8 @@ public class RequestHandler extends Thread {
     private void controlServlet(HttpRequest request, HttpResponse response) throws IOException {
         String path = request.getPath();
         log.debug("[PATH] : {}", path);
-        if (servletMap.containsKey(path)) {
-            Servlet servlet = servletMap.get(path);
+        if (ServletMap.containsKey(path)) {
+            Servlet servlet = ServletMap.get(path);
             servlet.service(request, response);
             return;
         }
