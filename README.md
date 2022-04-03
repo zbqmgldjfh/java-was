@@ -60,7 +60,7 @@ Servlet 이라는 대표적인 interface를 다음과 같이 구현하였습니�
 
 ```java
 public interface Servlet {
-  public void service(HttpRequest request, HttpResponse response);
+    public void service(HttpRequest request, HttpResponse response);
 }
 ```
 
@@ -68,25 +68,18 @@ public interface Servlet {
 
 ```java
 public class BaseServlet implements Servlet {
-  @Override
-  public void service(HttpRequest request, HttpResponse response) {
-    String method = request.getMethod();
-    if (method.equals("GET")) {
-      doGet(request, response);
-    } else {
-      doPost(request, response);
+    @Override
+    public void service(HttpRequest request, HttpResponse response) {
+      String method = request.getMethod();
+      if (method.equals("GET")) {
+        doGet(request, response);
+      } else {
+        doPost(request, response);
+      }
     }
-  }
-
-  public void doGet(HttpRequest request, HttpResponse response) {
-  }
-
-  ;
-
-  public void doPost(HttpRequest request, HttpResponse response) {
-  }
-
-  ;
+    
+    public void doGet(HttpRequest request, HttpResponse response) {};
+    public void doPost(HttpRequest request, HttpResponse response) {};
 }
 ```
 
@@ -105,10 +98,10 @@ public class BaseServlet implements Servlet {
 
 ```java
 static {
-        servletMap.put("/user/create",new CreateUserServlet());
-        servletMap.put("/user/login",new LoginServlet());
-        servletMap.put("/user/logout",new LogoutServlet());
-        }
+    servletMap.put("/user/create",new CreateUserServlet());
+    servletMap.put("/user/login",new LoginServlet());
+    servletMap.put("/user/logout",new LogoutServlet());
+}
 ```
 
 하지만 이런식으로 하나하나 Servlet을 만들 때 마다 처리하기는 힘들다 생각하여 @MyServletMapping 이라는 에노테이션을 만들게 되었습니다.
@@ -118,8 +111,8 @@ static {
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface MyServletMapping {
-  String url();
+public @interface MyServletMapping { 
+    String url();
 }
 ```
 
@@ -136,13 +129,13 @@ Reflections reflector=new Reflections("servlet");
         addServletToMap(reflector);
 
 private static void addServletToMap(Reflections reflector)throws InstantiationException,IllegalAccessException,InvocationTargetException,NoSuchMethodException{
-        Set<Class<?>>list=reflector.getTypesAnnotatedWith(MyServletMapping.class);
-        for(Class<?> clazz:list){
+    Set<Class<?>> list = reflector.getTypesAnnotatedWith(MyServletMapping.class);
+    for(Class<?> clazz:list){
         String url=clazz.getAnnotation(MyServletMapping.class).url();
         Servlet servlet=(Servlet)clazz.getDeclaredConstructor().newInstance();
         ServletMap.addServlet(url,servlet);
-        }
-        }
+    }
+}
 ```
 
 이렇게 ServletMap에 등록시킨 후, 사용할때 map을 통해 mapping해오게 됩니다.
@@ -152,8 +145,8 @@ private static void addServletToMap(Reflections reflector)throws InstantiationEx
 우선 Filter Interface를 다음과 같이 구현하였습니다.
 
 ```java
-public interface Filter {
-  public boolean doFilter(HttpRequest request, HttpResponse response);
+public interface Filter { 
+    public boolean doFilter(HttpRequest request, HttpResponse response);
 }
 ```
 
@@ -235,7 +228,7 @@ public class LoginFilter implements Filter {
 
 - [x] 로그인 상태일 경우 User 목록 출력
 - [x] 로그인 하지 않은 상태면 Login으로 이동
-- [ ] LoginFilter 리팩토링 하기다
+- [x] LoginFilter 리팩토링 하기다
 
 ## Step04 TODO list
 
